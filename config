@@ -1,0 +1,6 @@
+[dbConfig]
+database = protean_db
+user = pat
+password = pat
+host = localhost
+port = 5432
