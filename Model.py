@@ -12,7 +12,7 @@ __author__ = 'srocha'
 
 try:
    config = ConfigParser()
-   config.read('config')
+   config.read('config.cfg')
    database = config['dbConfig']['database']
    user = config['dbConfig']['user']
    password = config['dbConfig']['password']

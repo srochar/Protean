@@ -8,7 +8,7 @@ from Model import findOrCreateLanguage,findOrCreateLetter,allLanguages,getFreque
 from Model import updateMinFrequencys,updateMaxFrequencys,getFrequencysLetterByLanguage
 
 VARIANCE = 0.03
-PERCENT_SIMILARITY = 0.95
+PERCENT_SIMILARITY = 0.80
 
 def getPatterProtean(text):
    dic_letter = Counter(text)
@@ -32,18 +32,15 @@ def learLanguage(patter, language):
    for percentage,letter in patter:
       letter_id = findOrCreateLetter(letter)
       min,max,id = getFrequencys(language_id,letter_id)
-      if(min < percentage):
+      if(min > percentage):
          updateMinFrequencys(id,percentage)
       if(max < percentage):
          updateMaxFrequencys(id,percentage)
 
 def detectLanguage(patter):
-   languages = getPatterLanguages()
-
    candidateLanguage = []
-
+   languages = getPatterLanguages()
    for language in languages:
-
       count = 0
       for percentage,letter in patter:
          letter_id = findOrCreateLetter(letter)
@@ -52,6 +49,7 @@ def detectLanguage(patter):
          if(percentage - VARIANCE <= minLanguageLetter and percentage + VARIANCE >= maxLanguageLetter):
             count += percentage
       if count >= PERCENT_SIMILARITY:
+         count = 1 - abs(count - 1)
          candidateLanguage.append((language.name,count) )
 
    return candidateLanguage
